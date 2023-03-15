@@ -8,11 +8,11 @@ LOG_LEVEL = environ.get("LOG_LEVEL", "INFO")
 
 logging.basicConfig(
     stream=sys.stdout,
-    level=LOG_LEVEL
 )
 logger = logging.getLogger()
+logger.setLevel(LOG_LEVEL)
 
-TOPIC_ARN = ''
+TOPIC_ARN = environ.get("TOPIC_ARN")
 
 
 sns_client = boto3.client('sns')
@@ -28,17 +28,19 @@ def event_handler(event, context):
 
     message = f"Pipeline: {pipeline}\nStage: {stage}\nState: {state}"
 
+    logger.info(message)
+
     # send SNS message
     response = sns_client.publish(
         TopicArn=TOPIC_ARN,
         Message=message,
         MessageAttributes={
             "stage": {
-                "DataType": "string", # https://docs.aws.amazon.com/sns/latest/dg/sns-message-attributes.html#SNSMessageAttributes.DataTypes
+                "DataType": "String", # https://docs.aws.amazon.com/sns/latest/dg/sns-message-attributes.html#SNSMessageAttributes.DataTypes
                 "StringValue": stage
             },
             "pipeline": {
-                "DataType": "string",
+                "DataType": "String",
                 "StringValue": pipeline
             }
         }
