@@ -15,7 +15,7 @@ export class PipelineAlertsStack extends cdk.Stack {
       runtime: cdk.aws_lambda.Runtime.PYTHON_3_9,
       architecture: cdk.aws_lambda.Architecture.ARM_64,
       code: cdk.aws_lambda.Code.fromAsset('./functions/event_handler/'),
-      handler: 'event_handler',
+      handler: 'lambda_function.event_handler',
       environment: {
         LOG_LEVEL: "DEBUG",
         TOPIC_ARN: topic.topicArn
@@ -37,7 +37,8 @@ export class PipelineAlertsStack extends cdk.Stack {
         },
       },
       targets: [
-        new cdk.aws_events_targets.SnsTopic(topic),
+        //new cdk.aws_events_targets.SnsTopic(topic),
+        new cdk.aws_events_targets.LambdaFunction(func)
       ]
     });
   }
