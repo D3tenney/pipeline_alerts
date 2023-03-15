@@ -11,6 +11,18 @@ export class PipelineAlertsStack extends cdk.Stack {
 
     // lambda?
 
+    const func = new cdk.aws_lambda.Function(this, "HandlerFunc", {
+      runtime: cdk.aws_lambda.Runtime.PYTHON_3_9,
+      architecture: cdk.aws_lambda.Architecture.ARM_64,
+      code: cdk.aws_lambda.Code.fromAsset('./functions/event_handler/'),
+      handler: 'event_handler',
+      environment: {
+        LOG_LEVEL: "DEBUG",
+        TOPIC_ARN: topic.topicArn
+      }
+    });
+    topic.grantPublish(func);
+
     // eventbridge rule
 
     const pipelineRule = new cdk.aws_events.Rule(this, "PipelineRule", {
