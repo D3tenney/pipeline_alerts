@@ -6,11 +6,27 @@ export class PipelineAlertsStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
 
-    // The code that defines your stack goes here
+    // sns topic
+    const topic = new cdk.aws_sns.Topic(this, "Topic", {});
 
-    // example resource
-    // const queue = new sqs.Queue(this, 'PipelineAlertsQueue', {
-    //   visibilityTimeout: cdk.Duration.seconds(300)
-    // });
+    // lambda?
+
+    // eventbridge rule
+
+    const pipelineRule = new cdk.aws_events.Rule(this, "PipelineRule", {
+      ruleName: 'VoterFileProcessingTriggerRule',
+      description: 'Rule that triggers VF step function',
+      enabled: true,
+      eventPattern: {
+        source: [ "aws.codepipeline" ],
+        detailType: [ "CodePipeline Stage Execution State Change" ],
+        detail: {
+          "state": [ "SUCCEEDED", "FAILED", "CANCELED" ]
+        },
+      },
+      targets: [
+        new cdk.aws_events_targets.SnsTopic(topic),
+      ]
+    });
   }
 }

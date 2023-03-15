@@ -1,0 +1,8 @@
+{
+    "editor.formatOnSave": true,
+    "typescript.format.enable": true,
+    "typescript.format.semicolons": "insert",
+    "typescript.format.insertSpaceAfterOpeningAndBeforeClosingNonemptyBraces": true,
+    "typescript.format.insertSpaceAfterOpeningAndBeforeClosingNonemptyBrackets": true,
+    "typescript.suggest.includeCompletionsForImportStatements": true,
+}
