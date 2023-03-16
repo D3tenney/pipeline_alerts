@@ -9,8 +9,7 @@ export class PipelineAlertsStack extends cdk.Stack {
     // sns topic
     const topic = new cdk.aws_sns.Topic(this, "Topic", {});
 
-    // lambda?
-
+    // lambda
     const func = new cdk.aws_lambda.Function(this, "HandlerFunc", {
       runtime: cdk.aws_lambda.Runtime.PYTHON_3_9,
       architecture: cdk.aws_lambda.Architecture.ARM_64,
@@ -24,7 +23,6 @@ export class PipelineAlertsStack extends cdk.Stack {
     topic.grantPublish(func);
 
     // eventbridge rule
-
     const pipelineRule = new cdk.aws_events.Rule(this, "PipelineRule", {
       ruleName: 'VoterFileProcessingTriggerRule',
       description: 'Rule that triggers VF step function',
