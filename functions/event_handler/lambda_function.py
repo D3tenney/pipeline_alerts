@@ -45,3 +45,5 @@ def event_handler(event, context):
             }
         }
     )
+
+    logger.debug(response)
