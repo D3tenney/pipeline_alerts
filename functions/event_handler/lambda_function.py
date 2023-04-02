@@ -42,6 +42,10 @@ def event_handler(event, context):
             "pipeline": {
                 "DataType": "String",
                 "StringValue": pipeline
+            },
+            "state": {
+                "DataType": "String",
+                "StringValue": state
             }
         }
     )
