@@ -33,6 +33,7 @@ def event_handler(event, context):
     # send SNS message
     response = sns_client.publish(
         TopicArn=TOPIC_ARN,
+        Subject=f"Pipeline Alert: {pipeline}-{stage}-{state}",
         Message=message,
         MessageAttributes={
             "stage": {
