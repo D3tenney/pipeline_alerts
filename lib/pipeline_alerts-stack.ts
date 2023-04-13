@@ -21,6 +21,13 @@ export class PipelineAlertsStack extends cdk.Stack {
       }
     });
     topic.grantPublish(func);
+    func.addToRolePolicy(
+      new cdk.aws_iam.PolicyStatement({
+        effect: cdk.aws_iam.Effect.ALLOW,
+        actions: [ "codepipeline:GetPipelineExecution" ],
+        resources: [ "*" ]
+      })
+    );
 
     // eventbridge rule
     const pipelineRule = new cdk.aws_events.Rule(this, "PipelineRule", {
